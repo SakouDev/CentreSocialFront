@@ -15,6 +15,7 @@ import Link from 'next/link';
 import Candidat from './Candidat';
 import { useRouter } from 'next/router';
 import Employeur from './Employeur';
+import AddUser from './AddUser';
 
 const drawerWidth = 240;
 
@@ -171,7 +172,7 @@ export default function MiniDrawer() {
             <Employeur/>
         )}
         {router.query.table == "Nouveau" && (
-            <h1>EN COURS DE DEV</h1>
+            <AddUser/>
         )}
       </Box>
     </Box>

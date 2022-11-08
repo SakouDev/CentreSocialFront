@@ -4,12 +4,12 @@ import { ApiService } from '../api/axios'
 
 const Post = () => {
   const router = useRouter()
-  const { cid } = router.query
+  const { eid } = router.query
 
   const [details, setDetails] = useState(null)
 
   useEffect( () => {
-      ApiService.get(`candidats/${cid}`)
+      ApiService.get(`employeurs/${eid}`)
       .catch(error => console.log(error))
       .then(response => setDetails(response.data.data))
   }, [])
@@ -20,13 +20,12 @@ const Post = () => {
   return (
     <>
       <ul>
-        <h1>Candidats :</h1>
+        <h1>Employeur :</h1>
 
         <li>id : {details.id}</li>
         <li>UserId: {details.UserId}</li>
-        <li>firstName : {details.firstName}</li>
-        <li>lastName : {details.lastName}</li>
-        <li>birthday : {details.birthday}</li>
+        <li>name : {details.name}</li>
+        <li>SIRET : {details.siret}</li>
         <li>createdAt : {details.createdAt}</li>
         <li>updatedAt :{details.updatedAt}</li>
 
@@ -45,12 +44,6 @@ const Post = () => {
         <li>updatedAt :{details.User.updatedAt}</li>
 
         <ul>
-          <h2>Diplome : </h2>
-          {details.User.Diplomes.map(element => {
-            return(
-              <li>{element.certificate}</li>
-            )
-          })}
           <h2>Disponibilites : </h2>
           {details.User.Disponibilites.map(element => {
             return(

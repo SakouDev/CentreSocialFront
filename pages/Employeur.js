@@ -24,7 +24,7 @@ export default function Employeur() {
 
   return (
     <>
-        <Tables data = {employeurs} headerData = {HeaderEmployeur}/>
+      <Tables data = {employeurs} headerData = {HeaderEmployeur}/>
     </>
   )
 }
