@@ -1,9 +1,65 @@
 import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
+import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
-import React from 'react'
+import * as React from 'react'
 import { ApiService } from "../../pages/api/axios"
 
 export default function FormCandidat() {
+
+
+    const [diplo, setDiplo] = React.useState([]);
+    const [dispo, setDispo] = React.useState([]);
+
+    const handleChangeDiplo = (event) => {
+        event.target.checked?
+        setDiplo(
+            [...diplo,
+                {
+                    [event.target.name]: event.target.value
+                }
+            ]
+        )
+        :
+        diplo.splice(diplo.findIndex(element => element.id == event.target.value), 1)
+        //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
+    };
+
+    const handleChangeDispo = (event) => {
+        event.target.checked?
+        setDispo(
+            [...dispo, 
+                {
+                    [event.target.name]: event.target.value
+                }
+            ]
+        )
+        :
+        dispo.splice(dispo.findIndex(element => element.id == event.target.value), 1)
+        //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
+    };
+
+    let diplome = [
+        { key: 'id', label: 'BAFA', value: 1},
+        { key: 'id', label: "BAFD", value: 2},
+        { key: 'id', label: 'BPJEPS', value: 5},
+        { key: 'id', label: 'Stage Pratique', value: 3},
+        { key: 'id', label: 'Non Diplômé', value: 4}
+    ]
+
+    let disponibilite = [
+        { key: 'id', label: 'Lundi', value: 1},
+        { key: 'id', label: "Mardi", value: 2},
+        { key: 'id', label: 'Mercredi', value: 3},
+        { key: 'id', label: 'Jeudi', value: 4},
+        { key: 'id', label: 'Vendredi', value: 5},
+        { key: 'id', label: 'Samedi', value: 6},
+        { key: 'id', label: 'Vacances de Fevrier', value: 7},
+        { key: 'id', label: 'Vacances de Mai', value: 8},
+        { key: 'id', label: 'Vacances de Juillet', value: 9},
+        { key: 'id', label: "Vacances d'Août", value: 10},
+        { key: 'id', label: "Vacances d'Octobre", value: 11},
+        { key: 'id', label: 'Vacances de Noël', value: 12}
+    ]
 
     function HandleSubmit(event){
         event.preventDefault()
@@ -23,29 +79,11 @@ export default function FormCandidat() {
                 role: "Candidat",
                 image: "http://www.rien.com"
             },
-            "Disponibilite": [
-                {
-                  id: 1
-                },
-                {
-                  id: 4
-                },
-                {
-                  id: 7
-                }
-            ],
-            "Diplome": [
-                {
-                    id: 2
-                },
-                {
-                    id: 4
-                }
-            ]
+            "Disponibilite": dispo,
+            "Diplome": diplo
         }
         ApiService.post('candidats', data)
     }
-
     return (
         <>
         <Card style={{width: "75%"}}>
@@ -120,6 +158,31 @@ export default function FormCandidat() {
                     />
                 
                 </CardContent>
+
+                <CardContent>
+                    <FormLabel component="legend">Diplôme</FormLabel>
+                    <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
+                        {diplome.map((data) =>{
+                            // console.log(data)
+                            return(
+                                <FormControlLabel control={<Checkbox value={data.value} onChange={handleChangeDiplo} name={data.key}/>} label={data.label} />
+                            )
+                        })}
+                    </FormGroup>
+                </CardContent>
+
+                <CardContent>
+                    <FormLabel component="legend">Disponibilité</FormLabel>
+                    <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
+                        {disponibilite.map((data) =>{
+                            // console.log(data)
+                            return(
+                                <FormControlLabel control={<Checkbox value={data.value} onChange={handleChangeDispo} name={data.key}/>} label={data.label} />
+                            )
+                        })}
+                    </FormGroup>
+                </CardContent>
+
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
                         Success

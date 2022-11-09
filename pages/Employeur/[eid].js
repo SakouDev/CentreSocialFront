@@ -45,6 +45,7 @@ const Post = () => {
 
         <ul>
           <h2>Disponibilites : </h2>
+          
           {details.User.Disponibilites.map(element => {
             return(
               <li>{element.namePeriod}</li>
