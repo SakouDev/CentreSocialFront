@@ -39,7 +39,7 @@ export default function FormCandidat() {
 
     return (
         <>
-        <Card style={{width: "75%"}}>
+        <Card style={{width: "100%"}}>
             <Box
                 component="form"
                 sx={{

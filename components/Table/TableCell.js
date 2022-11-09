@@ -80,7 +80,7 @@ export default function TableCellElement(
                         <CircleIcon sx={{ color: red[500], fontSize: 30 }} name = "circle"/>
                     }
                 </TableCell>
-                <TableCell>
+                <TableCell align="center" onClick={() => setOpen(!open)}>
                     <Link href={`/${TableElementUser_Role}/${TableElementId}`}><Button variant="contained"> Info</Button></Link>
                 </TableCell>
             </StyledTableRow>
