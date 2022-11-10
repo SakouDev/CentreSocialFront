@@ -1,14 +1,46 @@
 import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
+import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
-import React from 'react'
+import * as React from 'react'
 import { ApiService } from "../../pages/api/axios"
 
-export default function FormCandidat() {
+export default function FormEmployeur() {
+
+
+    const [dispo, setDispo] = React.useState([]);
+
+    const handleChangeDispo = (event) => {
+        event.target.checked?
+        setDispo(
+            [...dispo, 
+                {
+                    [event.target.name]: event.target.value
+                }
+            ]
+        )
+        :
+        dispo.splice(dispo.findIndex(element => element.id == event.target.value), 1)
+        //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
+    };
+
+    let disponibilite = [
+        { key: 'id', label: 'Lundi', value: 1},
+        { key: 'id', label: "Mardi", value: 2},
+        { key: 'id', label: 'Mercredi', value: 3},
+        { key: 'id', label: 'Jeudi', value: 4},
+        { key: 'id', label: 'Vendredi', value: 5},
+        { key: 'id', label: 'Samedi', value: 6},
+        { key: 'id', label: 'Vacances de Fevrier', value: 7},
+        { key: 'id', label: 'Vacances de Mai', value: 8},
+        { key: 'id', label: 'Vacances de Juillet', value: 9},
+        { key: 'id', label: "Vacances d'Août", value: 10},
+        { key: 'id', label: "Vacances d'Octobre", value: 11},
+        { key: 'id', label: 'Vacances de Noël', value: 12}
+    ]
 
     function HandleSubmit(event){
-        event.preventDefault()
         const data = {
-            "Candidat": {
+            "Employeur": {
                 name: event.target.name.value,
                 siret: event.target.siret.value,
             },
@@ -19,27 +51,16 @@ export default function FormCandidat() {
                 zipCode: event.target.zipcode.value,
                 city: event.target.city.value,
                 visibility: true,
-                role: "Candidat",
+                role: "Employeur",
                 image: "http://www.rien.com"
             },
-            "Disponibilite": [
-                {
-                  id: 1
-                },
-                {
-                  id: 4
-                },
-                {
-                  id: 7
-                }
-            ]
+            "Disponibilite": dispo
         }
         ApiService.post('employeurs', data)
     }
-
     return (
         <>
-        <Card style={{width: "100%"}}>
+        <Card style={{flex : 1}}>
             <Box
                 component="form"
                 sx={{
@@ -50,7 +71,7 @@ export default function FormCandidat() {
                 onSubmit={HandleSubmit}
             >
                 <CardContent>
-                <h1>Candidats</h1>
+                <h1>Employeurs</h1>
                     <TextField
                         required
                         id="outlined-required"
@@ -104,6 +125,19 @@ export default function FormCandidat() {
                     />
                 
                 </CardContent>
+
+                <CardContent>
+                    <FormLabel component="legend">Disponibilité</FormLabel>
+                    <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
+                        {disponibilite.map((data) =>{
+                            // console.log(data)
+                            return(
+                                <FormControlLabel control={<Checkbox value={data.value} onChange={handleChangeDispo} name={data.key}/>} label={data.label} />
+                            )
+                        })}
+                    </FormGroup>
+                </CardContent>
+
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
                         Success

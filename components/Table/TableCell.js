@@ -1,6 +1,6 @@
 // import DropdownDropdown from "../Menu/Dropdown";
 
-import { TableCell, tableCellClasses, TableRow, Collapse, Box, Typography,Table, TableHead,TableBody, IconButton, Button } from '@mui/material'
+import { TableCell, tableCellClasses, TableRow, Collapse, Box, Typography,Table, TableHead,TableBody, IconButton, Button, TableContainer,Paper } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -20,6 +20,7 @@ export default function TableCellElement(
         TableElementCreatedAt,
         TableElementUpdatedAt,
         TableElementUserId,
+        TableElementUser_Phone,
         TableElementUser_Id,
         TableElementUser_Mail,
         TableElementUser_Visibility,
@@ -46,6 +47,15 @@ export default function TableCellElement(
             border: 0,
         },
         }));
+        const StyledTableCell = styled(TableCell)(({ theme }) => ({
+            [`&.${tableCellClasses.head}`]: {
+              backgroundColor: theme.palette.common.black,
+              color: theme.palette.common.white,
+            },
+            [`&.${tableCellClasses.body}`]: {
+              fontSize: 14,
+            },
+          }));
 
     return(
         <>
@@ -85,30 +95,34 @@ export default function TableCellElement(
                 </TableCell>
             </StyledTableRow>
             <StyledTableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
+                        <Box>
                             <Typography align="center" variant="h6" gutterBottom component="div">
                                 Utilisateur
                             </Typography>
-                            <Table size="small" aria-label="customized table" sx={{ maxWidth : 1000 }}  align="center" >
+                            <TableContainer sx={{m : 4}} component={Paper}>
+                            <Table  aria-label="customized table"  align="center" >
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow align="center">
                                         <TableCell align="center">Mail</TableCell>
                                         <TableCell align="center">City</TableCell>
                                         <TableCell align="center">ZipCode</TableCell>
                                         <TableCell align="center">Address</TableCell>
+                                        <TableCell align="center">Phone</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow key={TableElementUser_Id}>
-                                        <TableCell align="center">{TableElementUser_Mail}</TableCell>
-                                        <TableCell align="center">{TableElementUser_City}</TableCell>
-                                        <TableCell align="center">{TableElementUser_ZipCode}</TableCell>
-                                        <TableCell align="center">{TableElementUser_Address}</TableCell>
+                                    <TableRow align="center" key={TableElementUser_Id}>
+                                        <StyledTableCell align="center">{TableElementUser_Mail}</StyledTableCell>
+                                        <StyledTableCell align="center">{TableElementUser_City}</StyledTableCell>
+                                        <StyledTableCell align="center">{TableElementUser_ZipCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{TableElementUser_Address}</StyledTableCell>
+                                        <StyledTableCell align="center">{TableElementUser_Phone || 'Non renseigné'}</StyledTableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
+                            </TableContainer>
                         </Box>
                     </Collapse>
                 </TableCell>

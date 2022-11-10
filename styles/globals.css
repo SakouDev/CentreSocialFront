@@ -22,5 +22,13 @@ a {
   left: 15%;
 }
 .DrawerMain{
-  background-color: purple;
+  background-color: rgb(148, 148, 148);
+  height: 100vh;
+}
+
+*{
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
 }

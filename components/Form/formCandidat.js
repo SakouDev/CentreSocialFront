@@ -72,6 +72,7 @@ export default function FormCandidat() {
             "User": {
                 mail: event.target.mail.value,
                 password: event.target.password.value,
+                phone: event.target.phone.value,
                 address: event.target.address.value,
                 zipCode: event.target.zipcode.value,
                 city: event.target.city.value,
@@ -86,7 +87,7 @@ export default function FormCandidat() {
     }
     return (
         <>
-        <Card style={{width: "100%"}}>
+        <Card style={{flex : 1}}>
             <Box
                 component="form"
                 sx={{
@@ -134,6 +135,12 @@ export default function FormCandidat() {
                         label="Password"
                         type="text"
                         name="password"
+                    />
+                    <TextField
+                        id="outlined-required"
+                        label="Phone"
+                        type="text"
+                        name="phone"
                     />
                     <TextField
                         required

@@ -2,11 +2,17 @@ import TableCellElement from "./TableCell";
 
 import { TableBody } from '@mui/material'
 
-export default function ITAccountTableBody(props)
+export default function ITAccountTableBody({props , rowsPerPage, page})
 {
+
+    // console.log(props.props.data)
+    console.log(rowsPerPage)
     return(
         <TableBody>
-            {props.props.data.map((data) => (
+            {(rowsPerPage > 0
+            ? props.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : props.data
+          ).map((data) => (
                 <TableCellElement
                     TableElementId = {data.id}
                     TableElementName = {data.name}
@@ -18,6 +24,7 @@ export default function ITAccountTableBody(props)
                     TableElementUpdatedAt = {new Date(data.updatedAt).toLocaleDateString("fr")}
                     TableElementUserId = {data.UserId}
                     TableElementUser_Id = {data.User.id}
+                    TableElementUser_Phone = {data.User.phone}
                     TableElementUser_Mail = {data.User.mail}
                     TableElementUser_Visibility = {data.User.visibility}
                     TableElementUser_Password = {data.User.password}

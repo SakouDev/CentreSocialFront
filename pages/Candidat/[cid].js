@@ -33,6 +33,7 @@ const Post = () => {
         <h1>Utilisateur : </h1>
         
         <li>id : {details.User.id}</li>
+        <li>phone : {details.User.phone || 'Non renseigné'}</li>
         <li>address : {details.User.address}</li>
         <li>zipCode :{details.User.zipCode}</li>
         <li>city : {details.User.city}</li>
