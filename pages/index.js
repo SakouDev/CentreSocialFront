@@ -16,6 +16,8 @@ import Candidat from './Candidat';
 import { useRouter } from 'next/router';
 import Employeur from './Employeur';
 import AddUser from './AddUser';
+import DetailsCandidat from './DetailsCandidat';
+import DetailsEmployeur from './DetailsEmployeur';
 
 const drawerWidth = 240;
 
@@ -164,16 +166,27 @@ export default function MiniDrawer() {
       <Box component="main" className='DrawerMain' sx={{ flexGrow: 1, p: 3 }} align='center'>
         <DrawerHeader/>
 
-        {router.query.table == "Candidat" && (
-            <Candidat/>
+        {router.query.table === "Candidat" && (
+            !router.query.id && <Candidat/>
         )}
 
         {router.query.table == "Employeur" && (
-            <Employeur/>
+            !router.query.id && <Employeur/>
         )}
         {router.query.table == "Nouveau" && (
             <AddUser/>
         )}
+
+        {/* Details Routes Candidat or Employeur */}
+
+        {(router.query.table == "Candidat" && router.query.id) && (
+            <DetailsCandidat/>
+        )}
+        {(router.query.table == "Employeur" && router.query.id ) && (
+            <DetailsEmployeur/>
+            
+        )}
+
       </Box>
     </Box>
   );

@@ -60,7 +60,7 @@ export default function TableCellElement(
     return(
         <>
             <StyledTableRow key={TableElementId}>
-                <TableCell  align="center" onClick={() => setOpen(!open)}>
+                <TableCell  align="center" style={{cursor:'pointer'}} onClick={() => setOpen(!open)}>
                 <IconButton
                     aria-label="expand row"
                     size="small"
@@ -68,19 +68,19 @@ export default function TableCellElement(
                     {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                 </IconButton>
                 </TableCell>
-                <TableCell  align="center" onClick={() => setOpen(!open)}>
+                <TableCell  align="center">
                     {TableElementFirstName} {TableElementLastName} {TableElementName}
                 </TableCell>
-                <TableCell  align="center"  onClick={() => setOpen(!open)}>
+                <TableCell  align="center">
                     {TableElementBirthday} {TableElementSiret}
                 </TableCell>
-                <TableCell  align="center"  onClick={() => setOpen(!open)}>
+                <TableCell  align="center">
                     {TableElementCreatedAt}
                 </TableCell>
-                <TableCell  align="center"  onClick={() => setOpen(!open)}>
+                <TableCell  align="center">
                     {TableElementUpdatedAt}
                 </TableCell>
-                <TableCell  align="center" onClick={() => setOpen(!open)}>
+                <TableCell  align="center">
                     {
                         TableElementUser_Visibility === true &&
                         <CircleIcon sx={{ color: green[500], fontSize: 30 }} name = "circle"/>
@@ -90,8 +90,14 @@ export default function TableCellElement(
                         <CircleIcon sx={{ color: red[500], fontSize: 30 }} name = "circle"/>
                     }
                 </TableCell>
-                <TableCell align="center" onClick={() => setOpen(!open)}>
-                    <Link href={`/${TableElementUser_Role}/${TableElementId}`}><Button variant="contained"> Info</Button></Link>
+                <TableCell align="center">
+                    <Link href={{
+                  pathname : "/",
+                  query:{  
+                            table : TableElementUser_Role,
+                            id : TableElementId
+                        },
+                }}><Button variant="contained"> Info</Button></Link>
                 </TableCell>
             </StyledTableRow>
             <StyledTableRow>
@@ -109,7 +115,8 @@ export default function TableCellElement(
                                         <TableCell align="center">City</TableCell>
                                         <TableCell align="center">ZipCode</TableCell>
                                         <TableCell align="center">Address</TableCell>
-                                        <TableCell align="center">Phone</TableCell>
+                                        {TableElementUser_Phone ? <TableCell align="center">Phone</TableCell> : ''}
+                                        
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -118,7 +125,7 @@ export default function TableCellElement(
                                         <StyledTableCell align="center">{TableElementUser_City}</StyledTableCell>
                                         <StyledTableCell align="center">{TableElementUser_ZipCode}</StyledTableCell>
                                         <StyledTableCell align="center">{TableElementUser_Address}</StyledTableCell>
-                                        <StyledTableCell align="center">{TableElementUser_Phone || 'Non renseigné'}</StyledTableCell>
+                                        {TableElementUser_Phone ? <StyledTableCell align="center">{TableElementUser_Phone}</StyledTableCell>: ''}
                                     </TableRow>
                                 </TableBody>
                             </Table>

@@ -10,7 +10,7 @@ export default function Tables(data){
             <TableContainer component={Paper} sx={{ flex : 1 }} >
                 <Table sx={{ flex : 1 }} aria-label="collapsible table, customized table">
                     <TableHeader props = {data.headerData} />
-                    {/* <TableData props = {data} /> */}
+                    {/* <TableData props = {data} /> OBSELETE ==> TRANSFER DE LA DATA DANS LE FOOTER POUR LA PAGINATION*/}
                     <TableFooters props = {data} />
                 </Table>
             </TableContainer>

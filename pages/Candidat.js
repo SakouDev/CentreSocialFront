@@ -10,7 +10,7 @@ export default function Candidat() {
     const [candidats, setCandidats] = useState([])
 
     useEffect(() => {
-    ApiService.get('candidats').then((response)=>setCandidats(response.data.data))
+      ApiService.get('candidats').then((response)=>setCandidats(response.data.data))
     }, [])
 
     const HeaderCandidat = 
