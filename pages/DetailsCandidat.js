@@ -15,27 +15,17 @@ export default function DetailsCandidat() {
     ApiService.get(`candidats/${router.query.id}`)
     .catch(error => console.log(error))
     .then((response) => setDetails(response.data.data))
-  }, [])
+  }, [router.query.id])
 
   if(details == null) return <h1>Loading...</h1>
 
-  console.log('aled',details)
+  // console.log('aled',details)
   const options = {weekday : 'short', month: 'short', day: 'numeric', year: 'numeric'}
   
   return (
     <>
-      {/* 
-          <h2>Disponibilites : </h2>
-          {details.User.Disponibilites.map(element => {
-            return(
-              <li>{element.namePeriod}</li>
-            )
-          })}
-        </ul>
-
-      </ul> */}
       <Card style={{height:'88vh', backgroundColor:'red'}}>
-        <Typography align='center' variant="h2">Détails d'un Candidat</Typography>
+        <Typography align='center' variant="h2">Détails d{$apos}un Candidat</Typography>
         <CardContent style={{width:'100%', display:'flex', flexDirection:'row'}}>
           <CardContent style={{width:'70%', padding:0}}> {/* Left */}
             <CardContent style={{padding:0, marginBottom:25, height:'50%'}}>
@@ -97,9 +87,9 @@ export default function DetailsCandidat() {
                 <Divider light />
                 <div style={{display:'flex', width:'95%', marginTop:25}}>
                   <div style={{width:'100%', justifyContent:'center'}}>
-                    {details.User.Diplomes.map(element => {
+                    {details.User.Diplomes.map((element, i) => {
                       return(
-                        <Typography align='center' variant='h5'>{element.certificate}</Typography>
+                        <Typography key={i} align='center' variant='h5'>{element.certificate}</Typography>
                       )
                     })}
                   </div>
@@ -112,9 +102,9 @@ export default function DetailsCandidat() {
                 <Divider light />
                 <div style={{display:'flex', width:'95%', marginTop:25}}>
                   <div style={{width:'100%', justifyContent:'center'}}>
-                    {details.User.Disponibilites.map(element => {
+                    {details.User.Disponibilites.map((element, i) => {
                       return(
-                        <Typography variant='h5'>{element.namePeriod}</Typography>
+                        <Typography key={i} variant='h5'>{element.namePeriod}</Typography>
                       )
                     })}
                   </div>
@@ -124,7 +114,6 @@ export default function DetailsCandidat() {
           </CardContent>
         </CardContent>
       </Card>
-        
     </>
   )
 }

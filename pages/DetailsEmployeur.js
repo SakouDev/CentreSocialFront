@@ -10,7 +10,7 @@ export default function DetailsEmployeur() {
         ApiService.get(`employeurs/${router.query.id}`)
         .catch(error => console.log(error))
         .then(response => setDetails(response.data.data))
-    }, [])
+    }, [router.query.id])
   
     if(!details) return <h1>Loading...</h1>
      
@@ -44,10 +44,10 @@ export default function DetailsEmployeur() {
             <ul>
                 <h2>Disponibilites : </h2>
                 
-                {details.User.Disponibilites.map(element => {
-                return(
-                    <li>{element.namePeriod}</li>
-                )
+                {details.User.Disponibilites.map((element, i) => {
+                    return(
+                        <li key={i}>{element.namePeriod}</li>
+                    )
                 })}
             </ul>
     

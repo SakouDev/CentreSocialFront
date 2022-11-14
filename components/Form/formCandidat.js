@@ -169,10 +169,10 @@ export default function FormCandidat() {
                 <CardContent>
                     <FormLabel component="legend">Diplôme</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                        {diplome.map((data) =>{
+                        {diplome.map((data, i) =>{
                             // console.log(data)
                             return(
-                                <FormControlLabel control={<Checkbox value={data.value} onChange={handleChangeDiplo} name={data.key}/>} label={data.label} />
+                                <FormControlLabel key={i} control={<Checkbox value={data.value} onChange={handleChangeDiplo} name={data.key}/>} label={data.label} />
                             )
                         })}
                     </FormGroup>
@@ -181,10 +181,10 @@ export default function FormCandidat() {
                 <CardContent>
                     <FormLabel component="legend">Disponibilité</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                        {disponibilite.map((data) =>{
+                        {disponibilite.map((data, i) =>{
                             // console.log(data)
                             return(
-                                <FormControlLabel control={<Checkbox value={data.value} onChange={handleChangeDispo} name={data.key}/>} label={data.label} />
+                                <FormControlLabel key={i} control={<Checkbox value={data.value} onChange={handleChangeDispo} name={data.key}/>} label={data.label} />
                             )
                         })}
                     </FormGroup>
