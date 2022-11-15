@@ -25,7 +25,7 @@ export default function DetailsCandidat() {
   return (
     <>
       <Card style={{minHeight:'88vh', backgroundColor:'#1976d2', padding:5}}>
-        <Typography align='center' variant="h2" color={'white'}>Détails d'un Candidat</Typography>
+        <Typography align='center' variant="h2" color={'white'}>Détails d{$apos}un Candidat</Typography>
         <CardContent style={{width:'100%', display:'flex', flexDirection:'row'}}>
           <CardContent style={{width:'70%', padding:0}}> {/* Left */}
             <CardContent style={{padding:0, marginBottom:25}}>
