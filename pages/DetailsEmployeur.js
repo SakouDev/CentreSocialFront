@@ -15,7 +15,7 @@ export default function DetailsCandidat() {
     ApiService.get(`employeurs/${router.query.id}`)
     .catch(error => console.log(error))
     .then((response) => setDetails(response.data.data))
-  }, [])
+  }, [router.query.id])
 
   if(details == null) return <h1>Loading...</h1>
 
