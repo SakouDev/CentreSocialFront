@@ -96,7 +96,7 @@ export default function DetailsCandidat() {
                 <Divider light />
                 <div style={{display:'flex', width:'95%', marginTop:25}}>
                   <div style={{width:'100%', justifyContent:'center', padding:5}}>
-                    {details.User.Disponibilites.map(element => {
+                    {details.User.Disponibilites.map((element,i) => {
                       return(
                         <Typography variant='h5'>{element.namePeriod}</Typography>
                       )
