@@ -6,14 +6,14 @@ export default function ITAccountTableBody({props , rowsPerPage, page})
 {
 
     // console.log(props.props.data)
-    console.log(rowsPerPage)
     return(
         <TableBody>
             {(rowsPerPage > 0
             ? props.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : props.data
-          ).map((data) => (
+          ).map((data, i) => (
                 <TableCellElement
+                    key={i}
                     TableElementId = {data.id}
                     TableElementName = {data.name}
                     TableElementSiret = {data.siret}

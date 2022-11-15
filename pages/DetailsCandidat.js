@@ -15,10 +15,11 @@ export default function DetailsCandidat() {
     ApiService.get(`candidats/${router.query.id}`)
     .catch(error => console.log(error))
     .then((response) => setDetails(response.data.data))
-  }, [])
+  }, [router.query.id])
 
   if(details == null) return <h1>Loading...</h1>
 
+  // console.log('aled',details)
   const options = {weekday : 'short', month: 'short', day: 'numeric', year: 'numeric'}
   
   return (
@@ -88,7 +89,7 @@ export default function DetailsCandidat() {
                   <div style={{width:'100%', justifyContent:'center', padding:5}}>
                     {details.User.Diplomes.map(element => {
                       return(
-                        <Typography align='center' variant='h5'>{element.certificate}</Typography>
+                        <Typography key={i} align='center' variant='h5'>{element.certificate}</Typography>
                       )
                     })}
                   </div>
@@ -103,7 +104,7 @@ export default function DetailsCandidat() {
                   <div style={{width:'100%', justifyContent:'center', padding:5}}>
                     {details.User.Disponibilites.map(element => {
                       return(
-                        <Typography variant='h5'>{element.namePeriod}</Typography>
+                        <Typography key={i} variant='h5'>{element.namePeriod}</Typography>
                       )
                     })}
                   </div>
@@ -116,7 +117,6 @@ export default function DetailsCandidat() {
           <Button variant="contained" color='error' onClick={() => console.log('ta maman')}>Supprimer</Button>
         </CardActions>
       </Card>
-        
     </>
   )
 }
