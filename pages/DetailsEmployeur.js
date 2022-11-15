@@ -98,7 +98,7 @@ export default function DetailsCandidat() {
                   <div style={{width:'100%', justifyContent:'center', padding:5}}>
                     {details.User.Disponibilites.map((element,i) => {
                       return(
-                        <Typography variant='h5'>{element.namePeriod}</Typography>
+                        <Typography key={i} variant='h5'>{element.namePeriod}</Typography>
                       )
                     })}
                   </div>

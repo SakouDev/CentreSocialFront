@@ -17,6 +17,8 @@ export default function DetailsCandidat() {
     .then((response) => setDetails(response.data.data))
   }, [router.query.id])
 
+  console.log("aled",details)
+
   if(details == null) return <h1>Loading...</h1>
 
   // console.log('aled',details)
