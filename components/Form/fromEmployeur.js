@@ -1,13 +1,31 @@
 import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
 import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import * as React from 'react'
+import { useEffect } from "react"
 import { ApiService } from "../../pages/api/axios"
 
 export default function FormEmployeur() {
 
-
+    const router = useRouter()
     const [dispo, setDispo] = React.useState([]);
+    const [data, setData] = React.useState(null)
+
+    useEffect(() => {
+        router.query.id &&(
+            ApiService.get(`employeurs/${router.query.id}`)
+            .then(element => {
+                setData(element.data.data)
+                setDispo(element.data.data.User.Disponibilites.map(disponibilite => {
+                    return  {
+                        id : `${disponibilite.id}`
+                     }
+                }))
+            })
+        )
+    }, [])
 
     const handleChangeDispo = (event) => {
         event.target.checked?
@@ -19,7 +37,7 @@ export default function FormEmployeur() {
             ]
         )
         :
-        dispo.splice(dispo.findIndex(element => element.id == event.target.value), 1)
+        setDispo(dispo.filter(element => element.id != event.target.value))
         //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
     };
 
@@ -56,8 +74,14 @@ export default function FormEmployeur() {
             },
             "Disponibilite": dispo
         }
+        router.query.id?
+        ApiService.put(`form/employeur/${router.query.id}`, data)
+        :
         ApiService.post('employeurs', data)
     }
+
+    if(router.query.id && data == null) return <h1>Loading...</h1>
+
     return (
         <>
         <Card style={{flex : 1}}>
@@ -78,6 +102,7 @@ export default function FormEmployeur() {
                         label="Name"
                         type="text"
                         name="name"
+                        defaultValue={data && data.name}
                     />
                     <TextField
                         required
@@ -85,6 +110,7 @@ export default function FormEmployeur() {
                         label="SIRET"
                         type="text"
                         name="siret"
+                        defaultValue={data && data.siret}
                     />
                 </CardContent>
                 <CardContent>
@@ -94,6 +120,7 @@ export default function FormEmployeur() {
                         label="Mail"
                         type="text"
                         name="mail"
+                        defaultValue={data && data.User.mail}
                     />
                     <TextField
                         required
@@ -101,6 +128,7 @@ export default function FormEmployeur() {
                         label="Password"
                         type="text"
                         name="password"
+                        placeholder="***********"
                     />
                     <TextField
                         required
@@ -108,6 +136,7 @@ export default function FormEmployeur() {
                         label="Address"
                         type="text"
                         name="address"
+                        defaultValue={data && data.User.address}
                     />
                     <TextField
                         required
@@ -115,6 +144,7 @@ export default function FormEmployeur() {
                         label="ZipCode"
                         type="text"
                         name="zipcode"
+                        defaultValue={data && data.User.zipCode}
                     />
                     <TextField
                         required
@@ -122,6 +152,7 @@ export default function FormEmployeur() {
                         label="City"
                         type="text"
                         name="city"
+                        defaultValue={data && data.User.city}
                     />
                 
                 </CardContent>
@@ -129,10 +160,16 @@ export default function FormEmployeur() {
                 <CardContent>
                     <FormLabel component="legend">Disponibilité</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                        {disponibilite.map((data) =>{
-                            // console.log(data)
+                        {disponibilite.map((data,i) =>{
                             return(
-                                <FormControlLabel control={<Checkbox value={data.value} onChange={handleChangeDispo} name={data.key}/>} label={data.label} />
+                                <FormControlLabel key={i} control={
+                                    <Checkbox 
+                                        defaultChecked={dispo.find(element => element.id == data.value)?true:false}
+                                        value={data.value} 
+                                        onChange={handleChangeDispo} 
+                                        name={data.key}
+                                    />
+                                } label={data.label} />
                             )
                         })}
                     </FormGroup>
@@ -140,7 +177,21 @@ export default function FormEmployeur() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        Success
+                        <Link href={router.query.id ? {
+                                pathname : "/",
+                                query: { 
+                                    table : `Employeur`,
+                                    id : router.query.id
+                                },
+                            }:{
+                                pathname : "/",
+                                query: { 
+                                    table : `Employeur`
+                                },
+                            }
+                            }>
+                                Success
+                        </Link>
                     </Button>
                 </CardContent>
             </Box>

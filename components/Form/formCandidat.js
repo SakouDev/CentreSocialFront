@@ -1,6 +1,10 @@
 import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
 import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers"
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from "dayjs";
+import Link from "next/link";
 import { useRouter } from "next/router"
 import * as React from 'react'
 import { useEffect } from "react"
@@ -13,28 +17,28 @@ export default function FormCandidat() {
 
     const [diplo, setDiplo] = useState([]);
     const [dispo, setDispo] = useState([]);
+    const [date, setDate] = useState(dayjs());
     const [data, setData] = useState(null)
-  
+
     useEffect(() => {
         router.query.id &&(
             ApiService.get(`candidats/${router.query.id}`)
             .then(element => {
                 setData(element.data.data)
-                // setDiplo(element.data.data.User.Diplomes.map(diplome => {
-                //     return  {
-                //         id : `${diplome.id}`
-                //      }
-                // }))
-                // setDispo(element.data.data.User.Disponibilites.map(disponibilite => {
-                //     return  {
-                //         id : `${disponibilite.id}`
-                //      }
-                // }))
+                setDiplo(element.data.data.User.Diplomes.map(diplome => {
+                    return  {
+                        id : `${diplome.id}`
+                     }
+                }))
+                setDispo(element.data.data.User.Disponibilites.map(disponibilite => {
+                    return  {
+                        id : `${disponibilite.id}`
+                     }
+                }))
+                setDate(dayjs(element.data.data.birthday, "DD MM YYYY").format())
             })
         )
     }, [])
-
-    console.log(diplo,dispo)
 
     const handleChangeDiplo = (event) => {
         event.target.checked?
@@ -46,7 +50,9 @@ export default function FormCandidat() {
             ]
         )
         :
-        diplo.splice(diplo.findIndex(element => element.id == event.target.value), 1)
+        // diplo.splice(diplo.findIndex(element => element.id == event.target.value), 1) VERSION DEGEUX
+
+        setDiplo(diplo.filter(element => element.id != event.target.value))
         //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
     };
 
@@ -60,7 +66,8 @@ export default function FormCandidat() {
             ]
         )
         :
-        dispo.splice(dispo.findIndex(element => element.id == event.target.value), 1)
+        // dispo.splice(dispo.findIndex(element => element.id == event.target.value), 1)
+        setDispo(dispo.filter(element => element.id != event.target.value))
         //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
     };
 
@@ -88,12 +95,11 @@ export default function FormCandidat() {
     ]
 
     function HandleSubmit(event){
-        event.preventDefault()
         const data = {
             "Candidat": {
                 firstName: event.target.firstname.value,
                 lastName: event.target.lastname.value,
-                birthday: event.target.birthday.value,
+                birthday: `${new Date(date.$d).toLocaleDateString("fr-FR")}`,
             },
             "User": {
                 mail: event.target.mail.value,
@@ -147,14 +153,16 @@ export default function FormCandidat() {
                         name="lastname"
                         defaultValue={data && data.lastName}
                     />
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Birthday"
-                        type="text"
-                        name="birthday"
-                        defaultValue={data && data.birthday}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <MobileDatePicker
+                            required
+                            label="Birthday"
+                            name="birthday"
+                            value={date}
+                            onChange={newDate => setDate(newDate)}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
                 </CardContent>
                 <CardContent>
                     <TextField
@@ -171,7 +179,7 @@ export default function FormCandidat() {
                         label="Password"
                         type="text"
                         name="password"
-                        defaultValue={data && "*************"}
+                        placeholder=""
                     />
                     <TextField
                         id="outlined-required"
@@ -214,10 +222,10 @@ export default function FormCandidat() {
                             
                             return(
                                 <FormControlLabel key={i} control={
-                                    <Checkbox 
-                                        checked={data.checked}
-                                        value={data.value} 
-                                        onChange={handleChangeDiplo} 
+                                    <Checkbox
+                                        defaultChecked={diplo.find(element => element.id == data.value)?true:false}
+                                        value={data.value}
+                                        onClick={handleChangeDiplo} 
                                         name={data.label}
                                     />
                                 } label={data.label} />
@@ -233,7 +241,12 @@ export default function FormCandidat() {
 
                             return(
                                 <FormControlLabel key={i} control={
-                                    <Checkbox value={data.value} onChange={handleChangeDispo} name={data.label}/>
+                                    <Checkbox
+                                        defaultChecked={dispo.find(element => element.id == data.value)?true:false}
+                                        value={data.value} 
+                                        onChange={handleChangeDispo} 
+                                        name={data.label}
+                                    />
                                 } label={data.label} />
                             )
                         })}
@@ -242,7 +255,21 @@ export default function FormCandidat() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        Success
+                        <Link href={router.query.id ? {
+                            pathname : "/",
+                            query: { 
+                                table : `Candidat`,
+                                id : router.query.id
+                            },
+                        }:{
+                            pathname : "/",
+                            query: { 
+                                table : `Candidat`
+                            },
+                        }
+                        }>
+                            Success
+                        </Link>
                     </Button>
                 </CardContent>
             </Box>

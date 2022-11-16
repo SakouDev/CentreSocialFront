@@ -24,8 +24,6 @@ export default function DetailsCandidat() {
 
 
   if(details == null) return <h1>Loading...</h1>
-
-  console.log('aled',details)
   const options = {weekday : 'short', month: 'short', day: 'numeric', year: 'numeric'}
   
   return (
@@ -114,7 +112,7 @@ export default function DetailsCandidat() {
           </CardContent>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color='error' onClick={() => DeleteEmployeur()}>
+          <Button variant="contained" color='error'>
             <Link  
               href={{
                 pathname : "/",
@@ -122,7 +120,7 @@ export default function DetailsCandidat() {
               }}>Supprimer
             </Link>
           </Button>
-          <Button variant="contained" color='secondary' onClick={() => console.log()}>
+          <Button variant="contained" color='secondary'>
             <Link
               href={{
                 pathname : "/",

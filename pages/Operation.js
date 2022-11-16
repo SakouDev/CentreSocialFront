@@ -16,7 +16,7 @@ export default function Operation() {
   <>
       {(!router.query.select) && (
         <>
-          <Button color='primary'>
+          <Button variant='contained' color='primary'>
             <Link
               href={{
                 pathname : "/",
@@ -27,7 +27,7 @@ export default function Operation() {
               }}>Candidat
             </Link>
           </Button>
-          <Button color='primary'>
+          <Button variant='contained' color='primary'>
             <Link
               href={{
                 pathname : "/",

@@ -4,8 +4,6 @@ import { TableBody } from '@mui/material'
 
 export default function ITAccountTableBody({props , rowsPerPage, page})
 {
-
-    // console.log(props.props.data)
     return(
         <TableBody>
             {(rowsPerPage > 0
