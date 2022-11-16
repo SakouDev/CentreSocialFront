@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:5000';
+const url = 'https://centresocialeclater.onrender.com';
 
 const ApiService = {
     init() {},
