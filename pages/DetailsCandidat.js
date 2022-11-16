@@ -1,4 +1,5 @@
 import { Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useState } from 'react'
@@ -9,6 +10,10 @@ export default function DetailsCandidat() {
 
   const router = useRouter()
   const [details, setDetails] = useState(null)
+
+  function DeleteCandidat(){
+    ApiService.delete('candidats', router.query.id)
+  }
 
 
   useEffect(() => {
@@ -26,7 +31,7 @@ export default function DetailsCandidat() {
   
   return (
     <>
-      <Card style={{minHeight:'88vh', backgroundColor:'#1976d2', padding:5}}>
+      <Card style={{minHeight:'88vh', backgroundColor:'rgb(0,105,255,0.4)', padding:5}}>
         <Typography align='center' variant="h2" color={'white'}>Détails d'un Candidat</Typography>
         <CardContent style={{width:'100%', display:'flex', flexDirection:'row'}}>
           <CardContent style={{width:'70%', padding:0}}> {/* Left */}
@@ -74,8 +79,8 @@ export default function DetailsCandidat() {
                       <Typography align='left' variant="h5">id : {details.User.id}</Typography>
                       <Typography align='left' variant="h5">role :{details.User.role}</Typography>
                       <Typography align='left' variant="h5">visibility : {details.User.visibility = details.User.visibility ? "True" : "False"}</Typography>
-                      <Typography align='left' variant="h5">createdAt : {details.User.createdAt}</Typography>
-                      <Typography align='left' variant="h5">updatedAt :{details.User.updatedAt}</Typography>
+                      <Typography align='left' variant="h5">createdAt : {new Date(details.User.createdAt).toLocaleDateString("fr-FR", options)}</Typography>
+                      <Typography align='left' variant="h5">updatedAt :{new Date(details.User.updatedAt).toLocaleDateString("fr-FR", options)}</Typography>
                     </div>
                   </div>
                 </div>
@@ -116,7 +121,26 @@ export default function DetailsCandidat() {
           </CardContent>
         </CardContent>
         <CardActions style={{marginLeft:10}}>
-          <Button variant="contained" color='error' onClick={() => console.log('ta maman')}>Supprimer</Button>
+          <Button variant="contained" color='error' onClick={() => DeleteCandidat()}>
+            <Link  
+              href={{
+                pathname : "/",
+                query: { table : `Candidat` },
+              }}>Supprimer
+            </Link>
+          </Button>
+          <Button variant="contained" color='secondary' onClick={() => console.log()}>
+            <Link
+              href={{
+                pathname : "/",
+                query: {
+                  table : `Operation`,
+                  select : `Candidat`,
+                  id: router.query.id
+                },
+              }}>Modifier
+            </Link>
+          </Button>
         </CardActions>
       </Card>
     </>

@@ -15,7 +15,7 @@ import Link from 'next/link';
 import Candidat from './Candidat';
 import { useRouter } from 'next/router';
 import Employeur from './Employeur';
-import AddUser from './AddUser';
+import Operation from './Operation';
 import DetailsCandidat from './DetailsCandidat';
 import DetailsEmployeur from './DetailsEmployeur';
 
@@ -142,7 +142,7 @@ export default function MiniDrawer() {
               icon : <AccountBox/>
             },
             {
-              name : 'Nouveau',
+              name : 'Operation',
               icon : <PersonAddIcon/>
             }].map((value) => (
             <ListItem key={value.name} disablePadding sx={{ display: 'block' }}>
@@ -173,8 +173,8 @@ export default function MiniDrawer() {
         {router.query.table == "Employeur" && (
             !router.query.id && <Employeur/>
         )}
-        {router.query.table == "Nouveau" && (
-            <AddUser/>
+        {router.query.table == "Operation" && (
+            <Operation/>
         )}
 
         {/* Details Routes Candidat or Employeur */}

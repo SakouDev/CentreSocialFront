@@ -1,21 +1,47 @@
 import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
 import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
+import { useRouter } from "next/router"
 import * as React from 'react'
+import { useEffect } from "react"
+import { useState } from "react"
 import { ApiService } from "../../pages/api/axios"
 
 export default function FormCandidat() {
 
+    const router = useRouter()
 
-    const [diplo, setDiplo] = React.useState([]);
-    const [dispo, setDispo] = React.useState([]);
+    const [diplo, setDiplo] = useState([]);
+    const [dispo, setDispo] = useState([]);
+    const [data, setData] = useState(null)
+  
+    useEffect(() => {
+        router.query.id &&(
+            ApiService.get(`candidats/${router.query.id}`)
+            .then(element => {
+                setData(element.data.data)
+                // setDiplo(element.data.data.User.Diplomes.map(diplome => {
+                //     return  {
+                //         id : `${diplome.id}`
+                //      }
+                // }))
+                // setDispo(element.data.data.User.Disponibilites.map(disponibilite => {
+                //     return  {
+                //         id : `${disponibilite.id}`
+                //      }
+                // }))
+            })
+        )
+    }, [])
+
+    console.log(diplo,dispo)
 
     const handleChangeDiplo = (event) => {
         event.target.checked?
         setDiplo(
             [...diplo,
                 {
-                    [event.target.name]: event.target.value
+                   id : event.target.value
                 }
             ]
         )
@@ -29,7 +55,7 @@ export default function FormCandidat() {
         setDispo(
             [...dispo, 
                 {
-                    [event.target.name]: event.target.value
+                    id: event.target.value
                 }
             ]
         )
@@ -45,7 +71,7 @@ export default function FormCandidat() {
         { key: 'id', label: 'Stage Pratique', value: 3},
         { key: 'id', label: 'Non Diplômé', value: 4}
     ]
-
+    
     let disponibilite = [
         { key: 'id', label: 'Lundi', value: 1},
         { key: 'id', label: "Mardi", value: 2},
@@ -83,8 +109,14 @@ export default function FormCandidat() {
             "Disponibilite": dispo,
             "Diplome": diplo
         }
+        router.query.id?
+        ApiService.put(`form/candidat/${router.query.id}`, data)
+        :
         ApiService.post('candidats', data)
     }
+
+    if(router.query.id && data==null) return <h1>Loading...</h1>
+    
     return (
         <>
         <Card style={{flex : 1}}>
@@ -105,6 +137,7 @@ export default function FormCandidat() {
                         label="FirstName"
                         type="text"
                         name="firstname"
+                        defaultValue={data && data.firstName}
                     />
                     <TextField
                         required
@@ -112,6 +145,7 @@ export default function FormCandidat() {
                         label="LastName"
                         type="text"
                         name="lastname"
+                        defaultValue={data && data.lastName}
                     />
                     <TextField
                         required
@@ -119,6 +153,7 @@ export default function FormCandidat() {
                         label="Birthday"
                         type="text"
                         name="birthday"
+                        defaultValue={data && data.birthday}
                     />
                 </CardContent>
                 <CardContent>
@@ -128,6 +163,7 @@ export default function FormCandidat() {
                         label="Mail"
                         type="text"
                         name="mail"
+                        defaultValue={data && data.User.mail}
                     />
                     <TextField
                         required
@@ -135,12 +171,14 @@ export default function FormCandidat() {
                         label="Password"
                         type="text"
                         name="password"
+                        defaultValue={data && "*************"}
                     />
                     <TextField
                         id="outlined-required"
                         label="Phone"
                         type="text"
                         name="phone"
+                        defaultValue={data && data.User.phone}
                     />
                     <TextField
                         required
@@ -148,6 +186,7 @@ export default function FormCandidat() {
                         label="Address"
                         type="text"
                         name="address"
+                        defaultValue={data && data.User.address}
                     />
                     <TextField
                         required
@@ -155,6 +194,7 @@ export default function FormCandidat() {
                         label="ZipCode"
                         type="text"
                         name="zipcode"
+                        defaultValue={data && data.User.zipCode}
                     />
                     <TextField
                         required
@@ -162,6 +202,7 @@ export default function FormCandidat() {
                         label="City"
                         type="text"
                         name="city"
+                        defaultValue={data && data.User.city}
                     />
                 
                 </CardContent>
@@ -170,9 +211,16 @@ export default function FormCandidat() {
                     <FormLabel component="legend">Diplôme</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
                         {diplome.map((data, i) =>{
-                            // console.log(data)
+                            
                             return(
-                                <FormControlLabel key={i} control={<Checkbox value={data.value} onChange={handleChangeDiplo} name={data.key}/>} label={data.label} />
+                                <FormControlLabel key={i} control={
+                                    <Checkbox 
+                                        checked={data.checked}
+                                        value={data.value} 
+                                        onChange={handleChangeDiplo} 
+                                        name={data.label}
+                                    />
+                                } label={data.label} />
                             )
                         })}
                     </FormGroup>
@@ -182,9 +230,11 @@ export default function FormCandidat() {
                     <FormLabel component="legend">Disponibilité</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
                         {disponibilite.map((data, i) =>{
-                            // console.log(data)
+
                             return(
-                                <FormControlLabel key={i} control={<Checkbox value={data.value} onChange={handleChangeDispo} name={data.key}/>} label={data.label} />
+                                <FormControlLabel key={i} control={
+                                    <Checkbox value={data.value} onChange={handleChangeDispo} name={data.label}/>
+                                } label={data.label} />
                             )
                         })}
                     </FormGroup>

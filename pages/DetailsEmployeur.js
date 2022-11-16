@@ -1,4 +1,5 @@
-import { Card, CardContent, Divider, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useState } from 'react'
@@ -17,6 +18,11 @@ export default function DetailsCandidat() {
     .then((response) => setDetails(response.data.data))
   }, [router.query.id])
 
+  function DeleteEmployeur(){
+    ApiService.delete('employeurs', router.query.id)
+  }
+
+
   if(details == null) return <h1>Loading...</h1>
 
   console.log('aled',details)
@@ -34,7 +40,7 @@ export default function DetailsCandidat() {
         </ul>
 
       </ul> */}
-      <Card style={{minHeight:'88vh', backgroundColor:'#1976d2', padding:5}}>
+      <Card style={{minHeight:'88vh', backgroundColor:'rgb(0,105,255,0.4)', padding:5}}>
         <Typography align='center' variant="h2" color={'white'}>Détails d'un Employeur</Typography>
         <CardContent style={{width:'100%', display:'flex', flexDirection:'row'}}>
           <CardContent style={{width:'70%', padding:0}}> {/* Left */}
@@ -107,6 +113,28 @@ export default function DetailsCandidat() {
             </CardContent>
           </CardContent>
         </CardContent>
+        <CardActions>
+          <Button variant="contained" color='error' onClick={() => DeleteEmployeur()}>
+            <Link  
+              href={{
+                pathname : "/",
+                query: { table : `Employeur` },
+              }}>Supprimer
+            </Link>
+          </Button>
+          <Button variant="contained" color='secondary' onClick={() => console.log()}>
+            <Link
+              href={{
+                pathname : "/",
+                query: {
+                  table : `Operation`,
+                  select : `Employeur`,
+                  id: router.query.id
+                },
+              }}>Modifier
+            </Link>
+          </Button>
+        </CardActions>
       </Card>
         
     </>
