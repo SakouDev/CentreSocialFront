@@ -22,6 +22,8 @@ export default function DetailsCandidat() {
     .then((response) => setDetails(response.data.data))
   }, [router.query.id])
 
+  console.log(details)
+
   if(details == null) return <h1>Loading...</h1>
 
   const options = {weekday : 'short', month: 'short', day: 'numeric', year: 'numeric'}
@@ -118,7 +120,7 @@ export default function DetailsCandidat() {
           </CardContent>
         </CardContent>
         <CardActions style={{marginLeft:10}}>
-          <Button variant="contained" color='error'>
+          <Button variant="contained" color='error' onClick={() => DeleteCandidat()}>
             <Link  
               href={{
                 pathname : "/",

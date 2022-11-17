@@ -19,6 +19,8 @@ export default function FormCandidat() {
     const [dispo, setDispo] = useState([]);
     const [date, setDate] = useState(dayjs());
     const [data, setData] = useState(null)
+    const [checkDiplo, setCheckDiplo] = useState(null)
+    const [checkDispo, setCheckDispo] = useState(null)
 
     useEffect(() => {
         router.query.id &&(
@@ -38,6 +40,8 @@ export default function FormCandidat() {
                 setDate(dayjs(element.data.data.birthday, "DD MM YYYY").format())
             })
         )
+        ApiService.get(`diplomes`).then(element => setCheckDiplo(element.data.data))
+        ApiService.get(`disponibilites`).then(element => setCheckDispo(element.data.data))
     }, [])
 
     const handleChangeDiplo = (event) => {
@@ -70,29 +74,6 @@ export default function FormCandidat() {
         setDispo(dispo.filter(element => element.id != event.target.value))
         //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
     };
-
-    let diplome = [
-        { key: 'id', label: 'BAFA', value: 1},
-        { key: 'id', label: "BAFD", value: 2},
-        { key: 'id', label: 'BPJEPS', value: 5},
-        { key: 'id', label: 'Stage Pratique', value: 3},
-        { key: 'id', label: 'Non Diplômé', value: 4}
-    ]
-    
-    let disponibilite = [
-        { key: 'id', label: 'Lundi', value: 1},
-        { key: 'id', label: "Mardi", value: 2},
-        { key: 'id', label: 'Mercredi', value: 3},
-        { key: 'id', label: 'Jeudi', value: 4},
-        { key: 'id', label: 'Vendredi', value: 5},
-        { key: 'id', label: 'Samedi', value: 6},
-        { key: 'id', label: 'Vacances de Fevrier', value: 7},
-        { key: 'id', label: 'Vacances de Mai', value: 8},
-        { key: 'id', label: 'Vacances de Juillet', value: 9},
-        { key: 'id', label: "Vacances d'Août", value: 10},
-        { key: 'id', label: "Vacances d'Octobre", value: 11},
-        { key: 'id', label: 'Vacances de Noël', value: 12}
-    ]
 
     function HandleSubmit(event){
         const data = {
@@ -156,6 +137,7 @@ export default function FormCandidat() {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <MobileDatePicker
                             required
+                            inputFormat="DD/MM/YYYY"
                             label="Birthday"
                             name="birthday"
                             value={date}
@@ -218,17 +200,17 @@ export default function FormCandidat() {
                 <CardContent>
                     <FormLabel component="legend">Diplôme</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                        {diplome.map((data, i) =>{
+                        {checkDiplo?.map((data, i) =>{
                             
                             return(
                                 <FormControlLabel key={i} control={
                                     <Checkbox
-                                        defaultChecked={diplo.find(element => element.id == data.value)?true:false}
-                                        value={data.value}
+                                        defaultChecked={diplo.find(element => element.id == data.id)?true:false}
+                                        value={data.id}
                                         onClick={handleChangeDiplo} 
-                                        name={data.label}
+                                        name={data.certificate}
                                     />
-                                } label={data.label} />
+                                } label={data.certificate} />
                             )
                         })}
                     </FormGroup>
@@ -237,17 +219,17 @@ export default function FormCandidat() {
                 <CardContent>
                     <FormLabel component="legend">Disponibilité</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                        {disponibilite.map((data, i) =>{
+                        {checkDispo?.map((data, i) =>{
 
                             return(
                                 <FormControlLabel key={i} control={
                                     <Checkbox
-                                        defaultChecked={dispo.find(element => element.id == data.value)?true:false}
-                                        value={data.value} 
+                                        defaultChecked={dispo.find(element => element.id == data.id)?true:false}
+                                        value={data.id} 
                                         onChange={handleChangeDispo} 
-                                        name={data.label}
+                                        name={data.namePeriod}
                                     />
-                                } label={data.label} />
+                                } label={data.namePeriod} />
                             )
                         })}
                     </FormGroup>
@@ -255,21 +237,7 @@ export default function FormCandidat() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        <Link href={router.query.id ? {
-                            pathname : "/",
-                            query: { 
-                                table : `Candidat`,
-                                id : router.query.id
-                            },
-                        }:{
-                            pathname : "/",
-                            query: { 
-                                table : `Candidat`
-                            },
-                        }
-                        }>
-                            Success
-                        </Link>
+                        Submit
                     </Button>
                 </CardContent>
             </Box>

@@ -12,6 +12,7 @@ export default function FormEmployeur() {
     const router = useRouter()
     const [dispo, setDispo] = React.useState([]);
     const [data, setData] = React.useState(null)
+    const [checkDispo, setCheckDispo] = React.useState(null)
 
     useEffect(() => {
         router.query.id &&(
@@ -25,6 +26,7 @@ export default function FormEmployeur() {
                 }))
             })
         )
+        ApiService.get(`disponibilites`).then(element => setCheckDispo(element.data.data))
     }, [])
 
     const handleChangeDispo = (event) => {
@@ -41,22 +43,9 @@ export default function FormEmployeur() {
         //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
     };
 
-    let disponibilite = [
-        { key: 'id', label: 'Lundi', value: 1},
-        { key: 'id', label: "Mardi", value: 2},
-        { key: 'id', label: 'Mercredi', value: 3},
-        { key: 'id', label: 'Jeudi', value: 4},
-        { key: 'id', label: 'Vendredi', value: 5},
-        { key: 'id', label: 'Samedi', value: 6},
-        { key: 'id', label: 'Vacances de Fevrier', value: 7},
-        { key: 'id', label: 'Vacances de Mai', value: 8},
-        { key: 'id', label: 'Vacances de Juillet', value: 9},
-        { key: 'id', label: "Vacances d'Août", value: 10},
-        { key: 'id', label: "Vacances d'Octobre", value: 11},
-        { key: 'id', label: 'Vacances de Noël', value: 12}
-    ]
 
     function HandleSubmit(event){
+        event.preventDefault()
         const data = {
             "Employeur": {
                 name: event.target.name.value,
@@ -160,16 +149,16 @@ export default function FormEmployeur() {
                 <CardContent>
                     <FormLabel component="legend">Disponibilité</FormLabel>
                     <FormGroup style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
-                        {disponibilite.map((data,i) =>{
+                        {checkDispo?.map((data,i) =>{
                             return(
                                 <FormControlLabel key={i} control={
                                     <Checkbox 
-                                        defaultChecked={dispo.find(element => element.id == data.value)?true:false}
-                                        value={data.value} 
+                                        defaultChecked={dispo.find(element => element.id == data.id)?true:false}
+                                        value={data.id} 
                                         onChange={handleChangeDispo} 
-                                        name={data.key}
+                                        name={data.namePeriod}
                                     />
-                                } label={data.label} />
+                                } label={data.namePeriod} />
                             )
                         })}
                     </FormGroup>
@@ -178,19 +167,18 @@ export default function FormEmployeur() {
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
                         <Link href={router.query.id ? {
-                                pathname : "/",
-                                query: { 
-                                    table : `Employeur`,
-                                    id : router.query.id
-                                },
+                            pathname : "/",
+                            query: { 
+                                table : `Employeur`,
+                                id : router.query.id
+                            },
                             }:{
-                                pathname : "/",
-                                query: { 
-                                    table : `Employeur`
-                                },
-                            }
-                            }>
-                                Success
+                            pathname : "/",
+                            query: { 
+                                table : `Employeur`
+                            },
+                        }}>
+                            Success
                         </Link>
                     </Button>
                 </CardContent>

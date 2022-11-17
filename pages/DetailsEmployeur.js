@@ -112,7 +112,7 @@ export default function DetailsCandidat() {
           </CardContent>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color='error'>
+          <Button variant="contained" color='error' onClick={() => DeleteEmployeur()}>
             <Link  
               href={{
                 pathname : "/",
