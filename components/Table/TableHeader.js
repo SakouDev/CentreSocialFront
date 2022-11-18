@@ -1,7 +1,6 @@
-import { TableHead, TableCell, TableRow,tableCellClasses } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { TableHead, TableCell, TableRow, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-export default function TableHeader(props){
+export default function TableHeader({props,setSearchTerm}){
 
   
   const [headerData, setHeaderData] = useState(
@@ -18,28 +17,27 @@ export default function TableHeader(props){
 
   
   useEffect(() => {
-    setHeaderData(props.props)
+    setHeaderData(props)
   }, [])
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-      [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.info.main,
-        color: theme.palette.common.white,
-      },
-      [`&.${tableCellClasses.body}`]: {
-        fontSize: 16,
-      },
-    }));
+  
   return (
       <TableHead>
-          <TableRow>
-              <StyledTableCell></StyledTableCell>
-              <StyledTableCell align="center"> {headerData.option1} </StyledTableCell>
-              <StyledTableCell align="center"> {headerData.option2} </StyledTableCell>
-              <StyledTableCell align="center"> {headerData.option3} </StyledTableCell>
-              <StyledTableCell align="center"> {headerData.option4} </StyledTableCell>
-              <StyledTableCell align="center"> {headerData.option5} </StyledTableCell>
-              <StyledTableCell></StyledTableCell>
+          <TableRow style={{backgroundColor:'#1976d2'}}>
+              <TableCell align="center"  style={{width:'15%',backgroundColor:'white'}} >
+                <TextField 
+                  inputProps={{ style: { color: '#1976d2'}}}
+                  variant='outlined' 
+                  margin="none" 
+                  label="Search" 
+                  onChange={(element) => setSearchTerm(element.target.value)}
+                />
+              </TableCell>
+              <TableCell align="center"> {headerData.option1} </TableCell>
+              <TableCell align="center"> {headerData.option2} </TableCell>
+              <TableCell align="center"> {headerData.option3} </TableCell>
+              <TableCell align="center"> {headerData.option4} </TableCell>
+              <TableCell align="center"> {headerData.option5} </TableCell>
+              <TableCell></TableCell>
           </TableRow>
       </TableHead>
   )

@@ -1,15 +1,23 @@
 import TableCellElement from "./TableCell";
-
 import { TableBody } from '@mui/material'
 
-export default function ITAccountTableBody({props , rowsPerPage, page})
+export default function ITAccountTableBody({props , rowsPerPage, page, searchTerm})
 {
+
+    const filteredData = props.data.filter((val) => {
+        
+        return (
+            val.firstName?.toString().toLowerCase().includes(searchTerm?.toString().toLowerCase()) ||
+            val.lastName?.toString().toLowerCase().includes(searchTerm?.toString().toLowerCase()) ||
+            val.name?.toString().toLowerCase().includes(searchTerm?.toString().toLowerCase()) 
+        )
+    })
+
     return(
         <TableBody>
             {(rowsPerPage > 0
-            ? props.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : props.data
-          ).map((data, i) => (
+            ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : filteredData).map((data, i) => (
                 <TableCellElement
                     key={i}
                     TableElementId = {data.id}

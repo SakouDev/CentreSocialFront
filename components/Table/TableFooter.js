@@ -75,7 +75,7 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function TableFooters({props}) {
+export default function TableFooters({data, searchTerm}) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
   
@@ -90,13 +90,13 @@ export default function TableFooters({props}) {
 
     return (
         <>
-            <TableData props={props} page={page} rowsPerPage={rowsPerPage} />
+            <TableData props={data} page={page} rowsPerPage={rowsPerPage} searchTerm={searchTerm}/>
             <TableFooter>
                 <TableRow>
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                         colSpan={6}
-                        count={props.data.length}
+                        count={data.data.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         SelectProps={{
