@@ -9,7 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AccountBox from '@mui/icons-material/AccountBox';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {ListItemText,ListItemIcon,ListItemButton,ListItem,IconButton,Divider,Typography,List,Toolbar,CssBaseline, Button} from '@mui/material';
+import {ListItemText,ListItemIcon,ListItemButton,ListItem,IconButton,Divider,Typography,List,Toolbar,CssBaseline, Button, Card} from '@mui/material';
 
 import Link from 'next/link';
 import Candidat from './Candidat';
@@ -18,6 +18,7 @@ import Employeur from './Employeur';
 import Operation from './Operation';
 import DetailsCandidat from './DetailsCandidat';
 import DetailsEmployeur from './DetailsEmployeur';
+import Image from 'next/image';
 
 const drawerWidth = 240;
 
@@ -100,7 +101,6 @@ export default function MiniDrawer() {
 
 
   const router = useRouter()
-  const candidatRef = React.useRef();
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -119,9 +119,11 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
+          <Link href={'/'}>
+            <Typography style={{cursor : "pointer"}} variant="h6" noWrap component="div">
+              Dashboard
+            </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -165,6 +167,21 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" className='DrawerMain' sx={{ flexGrow: 1, p: 3 }} align='center'>
         <DrawerHeader/>
+
+        {!router.query.table && (
+          <Card>
+            <img style={{width:'100%'}} src={'https://centresocialeclate.centres-sociaux.fr/files/2022/04/image-site-internet-2022-web.jpg'}/>
+            <Typography style={{margin:'1%'}} variant="h3">
+              Bienvenue sur le dashboard pour le centre social Éclaté ! 
+            </Typography>  
+            <Typography style={{margin:'1%'}} variant="h4">
+              Vous pouvez trouver sur la gauche un menu avec toutes les informations et fonctionnalité du site.
+            </Typography>
+            <Typography style={{margin:'1%'}} variant="h4">
+              (N'hésitez pas à ouvrir ce menu pour voir plus de détails)
+            </Typography>
+          </Card>
+        )}
 
         {router.query.table === "Candidat" && (
             !router.query.id && <Candidat/>

@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CircularProgress, Divider, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -24,7 +24,7 @@ export default function DetailsCandidat() {
 
   console.log(details)
 
-  if(details == null) return <h1>Loading...</h1>
+  if(details == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
 
   const options = {weekday : 'short', month: 'short', day: 'numeric', year: 'numeric'}
   
@@ -129,7 +129,7 @@ export default function DetailsCandidat() {
             </Link>
           </Button>
           <Button variant="contained" color='secondary'>
-            <Link
+          <Link
               href={{
                 pathname : "/",
                 query: {

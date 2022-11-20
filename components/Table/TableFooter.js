@@ -94,7 +94,7 @@ export default function TableFooters({data, searchTerm}) {
             <TableFooter>
                 <TableRow>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                        rowsPerPageOptions={[2, 5, 10, 25, 50,{ label: 'All', value: -1 }]}
                         colSpan={6}
                         count={data.data.length}
                         rowsPerPage={rowsPerPage}

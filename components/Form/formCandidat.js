@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
+import { Button, Card, CardContent, Checkbox, CircularProgress, TextField } from "@mui/material"
 import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers"
@@ -65,7 +65,7 @@ export default function FormCandidat() {
         setDispo(
             [...dispo, 
                 {
-                    id: event.target.value
+                    id : event.target.value
                 }
             ]
         )
@@ -76,6 +76,7 @@ export default function FormCandidat() {
     };
 
     function HandleSubmit(event){
+        event.preventDefault()
         const data = {
             "Candidat": {
                 firstName: event.target.firstname.value,
@@ -102,7 +103,7 @@ export default function FormCandidat() {
         ApiService.post('candidats', data)
     }
 
-    if(router.query.id && data==null) return <h1>Loading...</h1>
+    if(router.query.id && data==null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
     
     return (
         <>
@@ -237,7 +238,20 @@ export default function FormCandidat() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        Submit
+                        <Link href={router.query.id ? {
+                                pathname : "/",
+                                query: { 
+                                    table : `Candidat`,
+                                    id : router.query.id
+                                },
+                                }:{
+                                pathname : "/",
+                                query: { 
+                                    table : `Candidat`
+                                },
+                            }}>
+                                Success
+                            </Link>
                     </Button>
                 </CardContent>
             </Box>

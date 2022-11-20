@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CircularProgress, Divider, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -23,21 +23,11 @@ export default function DetailsCandidat() {
   }
 
 
-  if(details == null) return <h1>Loading...</h1>
+  if(details == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
   const options = {weekday : 'short', month: 'short', day: 'numeric', year: 'numeric'}
   
   return (
     <>
-      {/* 
-          <h2>Disponibilites : </h2>
-          {details.User.Disponibilites.map(element => {
-            return(
-              <li>{element.namePeriod}</li>
-            )
-          })}
-        </ul>
-
-      </ul> */}
       <Card style={{minHeight:'88vh', backgroundColor:'rgb(0,105,255,0.4)', padding:5}}>
         <Typography align='center' variant="h2" color={'white'}>Détails d'un Employeur</Typography>
         <CardContent style={{width:'100%', display:'flex', flexDirection:'row'}}>

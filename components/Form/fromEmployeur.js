@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Checkbox, TextField } from "@mui/material"
+import { Button, Card, CardContent, Checkbox, CircularProgress, TextField } from "@mui/material"
 import { FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { Box } from "@mui/system"
 import Link from "next/link"
@@ -28,13 +28,16 @@ export default function FormEmployeur() {
         )
         ApiService.get(`disponibilites`).then(element => setCheckDispo(element.data.data))
     }, [])
+    
+    console.log(dispo)
 
+    
     const handleChangeDispo = (event) => {
         event.target.checked?
         setDispo(
             [...dispo, 
                 {
-                    [event.target.name]: event.target.value
+                    id : event.target.value
                 }
             ]
         )
@@ -69,7 +72,7 @@ export default function FormEmployeur() {
         ApiService.post('employeurs', data)
     }
 
-    if(router.query.id && data == null) return <h1>Loading...</h1>
+    if(router.query.id && data == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
 
     return (
         <>

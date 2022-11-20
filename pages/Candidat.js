@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Tables from '../components/Table/Table'
 import { ApiService } from './api/axios'
@@ -7,7 +8,7 @@ import { ApiService } from './api/axios'
 export default function Candidat() {
 
 
-    const [candidats, setCandidats] = useState([])
+    const [candidats, setCandidats] = useState(null)
 
     useEffect(() => {
       ApiService.get('candidats').then((response)=>setCandidats(response.data.data))
@@ -21,7 +22,8 @@ export default function Candidat() {
         option4 : "UpdatedAt",
         option5 : "Active"
       }
-
+    
+    if(candidats == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
 
   return (
     <>
