@@ -9,6 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AccountBox from '@mui/icons-material/AccountBox';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LogoutIcon from '@mui/icons-material/Logout';
 import {ListItemText,ListItemIcon,ListItemButton,ListItem,IconButton,Divider,Typography,List,Toolbar,CssBaseline, Button, Card} from '@mui/material';
 
 import Link from 'next/link';
@@ -16,9 +17,12 @@ import Candidat from './Candidat';
 import { useRouter } from 'next/router';
 import Employeur from './Employeur';
 import Operation from './Operation';
-import DetailsCandidat from './DetailsCandidat';
-import DetailsEmployeur from './DetailsEmployeur';
+import DetailsCandidat from './Details/DetailsCandidat';
+import DetailsEmployeur from './Details/DetailsEmployeur';
 import Image from 'next/image';
+import Homepage from './Homepage';
+import Login from './Login';
+import { useCookies } from "react-cookie"
 
 const drawerWidth = 240;
 
@@ -101,6 +105,14 @@ export default function MiniDrawer() {
 
 
   const router = useRouter()
+  const [cookies, setCookie, removeCookie] = useCookies(['user'])
+  const [isLogged, setIsLogged] = React.useState(false)
+
+  function logout() {
+    removeCookie(["user"])
+    router.push('/')
+    setIsLogged(false)
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -120,10 +132,13 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Link href={'/'}>
-            <Typography style={{cursor : "pointer"}} variant="h6" noWrap component="div">
-              Dashboard
-            </Typography>
+            <img style={{height:'40px',margin:'10px',borderRadius:10,cursor : "pointer"}} src='https://scontent.flil1-1.fna.fbcdn.net/v/t39.30808-6/278442722_3126296900946912_3336457925346373951_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=fELF__AL_BsAX-_WxW1&_nc_ht=scontent.flil1-1.fna&oh=00_AfDoVXJfBxrFSc3pkYY1fPYP4xUtaQ3uV50PTR6BGZM-Ag&oe=638440E2'/>
           </Link>
+          <Link href={'/'}>
+            <Typography style={{cursor : "pointer"}} variant="h6" noWrap component="div">
+              Dashboard  </Typography>
+          </Link>
+           
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -135,7 +150,7 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {
-            [{
+            ((cookies.user && isLogged) && [{
               name : 'Candidat',
               icon : <AccountCircle />
             }, 
@@ -146,6 +161,10 @@ export default function MiniDrawer() {
             {
               name : 'Operation',
               icon : <PersonAddIcon/>
+            },
+            {
+              name : 'Deconnexion',
+              icon : <LogoutIcon/>
             }].map((value) => (
             <ListItem key={value.name} disablePadding sx={{ display: 'block' }}>
               <Link  href={{
@@ -162,47 +181,44 @@ export default function MiniDrawer() {
                 </ListItemButton>
               </Link>
             </ListItem>
+            )
           ))}
         </List>
       </Drawer>
       <Box component="main" className='DrawerMain' sx={{ flexGrow: 1, p: 3 }} align='center'>
         <DrawerHeader/>
 
-        {!router.query.table && (
-          <Card>
-            <img style={{width:'100%'}} src={'https://centresocialeclate.centres-sociaux.fr/files/2022/04/image-site-internet-2022-web.jpg'}/>
-            <Typography style={{margin:'1%'}} variant="h3">
-              Bienvenue sur le dashboard pour le centre social Éclaté ! 
-            </Typography>  
-            <Typography style={{margin:'1%'}} variant="h4">
-              Vous pouvez trouver sur la gauche un menu avec toutes les informations et fonctionnalité du site.
-            </Typography>
-            <Typography style={{margin:'1%'}} variant="h4">
-              (N'hésitez pas à ouvrir ce menu pour voir plus de détails)
-            </Typography>
-          </Card>
-        )}
+        {(cookies.user && isLogged) ? 
+          ([!router.query.table && (
+            <Homepage/>
+          ),
 
-        {router.query.table === "Candidat" && (
-            !router.query.id && <Candidat/>
-        )}
-
-        {router.query.table == "Employeur" && (
-            !router.query.id && <Employeur/>
-        )}
-        {router.query.table == "Operation" && (
+          (router.query.table === "Candidat") && (
+              !router.query.id && <Candidat/>
+          ),
+          (router.query.table == "Employeur") && (
+              !router.query.id && <Employeur/>
+          ),
+          (router.query.table == "Operation") && (
             <Operation/>
-        )}
+          ),
 
-        {/* Details Routes Candidat or Employeur */}
+          /* Details Routes Candidat or Employeur */
 
-        {(router.query.table == "Candidat" && router.query.id) && (
-            <DetailsCandidat/>
-        )}
-        {(router.query.table == "Employeur" && router.query.id ) && (
+          (router.query.table == "Candidat" && router.query.id) && (
+              <DetailsCandidat/>
+          ),
+          (router.query.table == "Employeur" && router.query.id ) && (
             <DetailsEmployeur/>
-            
-        )}
+          ),
+          (router.query.table == "Deconnexion") && (
+            (logout())
+          )])
+          :
+          <Box style={{display:'grid', placeContent:'center'}}>
+            <Login setIsLogged={setIsLogged}/>
+          </Box>
+        }
 
       </Box>
     </Box>

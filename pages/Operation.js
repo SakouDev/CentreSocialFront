@@ -6,6 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import PersonIcon from '@mui/icons-material/Person';
 
 import FormCandidat from '../components/Form/formCandidat'
 import FormEmployeur from '../components/Form/fromEmployeur'
@@ -13,16 +14,14 @@ import FormEmployeur from '../components/Form/fromEmployeur'
 
 const images = [
   {
-    url: 'https://www.zupimages.net/up/22/46/s5pr.png',
     title: 'Candidat',
     width: '45%',
-    left: '-50%'
+    left: '-30%'
   },
   {
-    url: 'https://www.zupimages.net/up/22/46/unyo.png',
     title: 'Employeur',
     width: '45%',
-    left: '50%'
+    left: '30%'
   },
 ];
 
@@ -46,16 +45,6 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
     },
   },
 }));
-
-const ImageSrc = styled('span')({
-  position: 'absolute',
-  right: 0,
-  top: 0,
-  bottom: 0,
-  backgroundSize: 'contain',
-  backgroundPosition: 'center 50%',
-  backgroundRepeat: 'no-repeat'
-});
 
 const Image = styled('span')(({ theme }) => ({
   position: 'absolute',
@@ -115,7 +104,7 @@ export default function Operation() {
                         }}
                     >
                         <ImageBackdrop className="MuiImageBackdrop-root" />
-                        <ImageSrc style={{ backgroundImage: `url(${image.url})`,left: image.left }} />
+                        <PersonIcon sx={{ fontSize: 200}} style={{position:'relative', left :image.left}}/>
                         <Image>
                             <Typography
                                 component="span"
