@@ -4,7 +4,7 @@ import { Box } from "@mui/system"
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
-import Link from "next/link";
+import 'dayjs/locale/fr'
 import { useRouter } from "next/router"
 import * as React from 'react'
 import { useEffect } from "react"
@@ -75,13 +75,16 @@ export default function FormCandidat() {
         //Splice un index précis de l'array après avoir récupéré cet index via la valeur de la checkbox.
     };
 
+    
+
     function HandleSubmit(event){
         event.preventDefault()
         const data = {
             "Candidat": {
                 firstName: event.target.firstname.value,
                 lastName: event.target.lastname.value,
-                birthday: `${new Date(date.$d).toLocaleDateString("fr-FR")}`,
+                birthday: `${new Date(date).toLocaleDateString("fr-FR")}`,
+                // birthday: date
             },
             "User": {
                 mail: event.target.mail.value,
@@ -98,9 +101,11 @@ export default function FormCandidat() {
             "Diplome": diplo
         }
         router.query.id?
-        ApiService.put(`form/candidat/${router.query.id}`, data)
+            ApiService.put(`form/candidat/${router.query.id}`, data)
+            .then(router.push('/?table=Candidat'))
         :
-        ApiService.post('candidats', data)
+            ApiService.post('candidat', data)
+            .then(router.push('/?table=Candidat'))
     }
 
     if(router.query.id && data==null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
@@ -122,7 +127,7 @@ export default function FormCandidat() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="FirstName"
+                        label="Prénom"
                         type="text"
                         name="firstname"
                         defaultValue={data && data.firstName}
@@ -130,19 +135,19 @@ export default function FormCandidat() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="LastName"
+                        label="Nom"
                         type="text"
                         name="lastname"
                         defaultValue={data && data.lastName}
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <LocalizationProvider locale={'fr'} dateAdapter={AdapterDayjs}>
                         <MobileDatePicker
                             required
                             inputFormat="DD/MM/YYYY"
-                            label="Birthday"
+                            label="Date de naissance"
                             name="birthday"
                             value={date}
-                            onChange={newDate => setDate(newDate)}
+                            onChange={newDate => setDate(dayjs(newDate, "DD MM YYYY").format())}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -159,14 +164,14 @@ export default function FormCandidat() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="Password"
+                        label="Mot de passe"
                         type="text"
                         name="password"
                         placeholder=""
                     />
                     <TextField
                         id="outlined-required"
-                        label="Phone"
+                        label="Téléphone"
                         type="text"
                         name="phone"
                         defaultValue={data && data.User.phone}
@@ -174,7 +179,7 @@ export default function FormCandidat() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="Address"
+                        label="Addresse"
                         type="text"
                         name="address"
                         defaultValue={data && data.User.address}
@@ -182,7 +187,7 @@ export default function FormCandidat() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="ZipCode"
+                        label="Code Postal"
                         type="text"
                         name="zipcode"
                         defaultValue={data && data.User.zipCode}
@@ -190,7 +195,7 @@ export default function FormCandidat() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="City"
+                        label="Ville"
                         type="text"
                         name="city"
                         defaultValue={data && data.User.city}
@@ -238,20 +243,7 @@ export default function FormCandidat() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        <Link href={router.query.id ? {
-                                pathname : "/",
-                                query: { 
-                                    table : `Candidat`,
-                                    id : router.query.id
-                                },
-                                }:{
-                                pathname : "/",
-                                query: { 
-                                    table : `Candidat`
-                                },
-                            }}>
-                                Success
-                            </Link>
+                        Success
                     </Button>
                 </CardContent>
             </Box>

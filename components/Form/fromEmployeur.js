@@ -68,8 +68,10 @@ export default function FormEmployeur() {
         }
         router.query.id?
         ApiService.put(`form/employeur/${router.query.id}`, data)
+        .then(router.push('/?table=Employeur'))
         :
         ApiService.post('employeurs', data)
+        .then(router.push('/?table=Employeur'))
     }
 
     if(router.query.id && data == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />
@@ -169,20 +171,7 @@ export default function FormEmployeur() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        <Link href={router.query.id ? {
-                            pathname : "/",
-                            query: { 
-                                table : `Employeur`,
-                                id : router.query.id
-                            },
-                            }:{
-                            pathname : "/",
-                            query: { 
-                                table : `Employeur`
-                            },
-                        }}>
-                            Success
-                        </Link>
+                        Success
                     </Button>
                 </CardContent>
             </Box>

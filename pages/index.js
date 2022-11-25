@@ -11,18 +11,17 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {ListItemText,ListItemIcon,ListItemButton,ListItem,IconButton,Divider,Typography,List,Toolbar,CssBaseline, Button, Card} from '@mui/material';
-
+import { useCookies } from "react-cookie"
 import Link from 'next/link';
+
 import Candidat from './Candidat';
 import { useRouter } from 'next/router';
 import Employeur from './Employeur';
 import Operation from './Operation';
 import DetailsCandidat from './Details/DetailsCandidat';
 import DetailsEmployeur from './Details/DetailsEmployeur';
-import Image from 'next/image';
 import Homepage from './Homepage';
 import Login from './Login';
-import { useCookies } from "react-cookie"
 
 const drawerWidth = 240;
 
@@ -114,6 +113,13 @@ export default function MiniDrawer() {
     setIsLogged(false)
   }
 
+  React.useEffect(() => {
+    if(cookies["user"]){
+      setIsLogged(true)
+    }
+  }, [cookies])
+  
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -150,7 +156,7 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {
-            ((cookies.user && isLogged) && [{
+            ((isLogged) && [{
               name : 'Candidat',
               icon : <AccountCircle />
             }, 
@@ -188,7 +194,7 @@ export default function MiniDrawer() {
       <Box component="main" className='DrawerMain' sx={{ flexGrow: 1, p: 3 }} align='center'>
         <DrawerHeader/>
 
-        {(cookies.user && isLogged) ? 
+        {(isLogged) ? 
           ([!router.query.table && (
             <Homepage/>
           ),
