@@ -16,11 +16,11 @@ export default function Employeur() {
 
     const HeaderEmployeur = 
       {
-        option1 : "Name",
+        option1 : "Nom d'entreprise",
         option2 : "SIRET",
-        option3 : "CreatedAt",
-        option4 : "UpdatedAt",
-        option5 : "Active"
+        option3 : "Création",
+        option4 : "Mise à jour",
+        option5 : "Activation"
       }
 
     if(employeurs == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />

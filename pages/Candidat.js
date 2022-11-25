@@ -16,11 +16,11 @@ export default function Candidat() {
 
     const HeaderCandidat = 
       {
-        option1 : "Name",
-        option2 : "Birthday",
-        option3 : "CreatedAt",
-        option4 : "UpdatedAt",
-        option5 : "Active"
+        option1 : "Identité",
+        option2 : "Date de naissance",
+        option3 : "Création",
+        option4 : "Mise à jour",
+        option5 : "Activation"
       }
     
     if(candidats == null) return <CircularProgress size={100} style={{marginTop:'20%'}} />

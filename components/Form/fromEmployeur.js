@@ -93,7 +93,7 @@ export default function FormEmployeur() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="Name"
+                        label="Nom d'entreprise"
                         type="text"
                         name="name"
                         defaultValue={data && data.name}
@@ -106,8 +106,6 @@ export default function FormEmployeur() {
                         name="siret"
                         defaultValue={data && data.siret}
                     />
-                </CardContent>
-                <CardContent>
                     <TextField
                         required
                         id="outlined-required"
@@ -119,7 +117,7 @@ export default function FormEmployeur() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="Password"
+                        label="Mot de passe"
                         type="text"
                         name="password"
                         placeholder="***********"
@@ -127,7 +125,7 @@ export default function FormEmployeur() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="Address"
+                        label="Addresse"
                         type="text"
                         name="address"
                         defaultValue={data && data.User.address}
@@ -135,7 +133,7 @@ export default function FormEmployeur() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="ZipCode"
+                        label="Code Postal"
                         type="text"
                         name="zipcode"
                         defaultValue={data && data.User.zipCode}
@@ -143,7 +141,7 @@ export default function FormEmployeur() {
                     <TextField
                         required
                         id="outlined-required"
-                        label="City"
+                        label="Ville"
                         type="text"
                         name="city"
                         defaultValue={data && data.User.city}
@@ -171,7 +169,7 @@ export default function FormEmployeur() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        Success
+                        Confirmer
                     </Button>
                 </CardContent>
             </Box>

@@ -151,8 +151,6 @@ export default function FormCandidat() {
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
-                </CardContent>
-                <CardContent>
                     <TextField
                         required
                         id="outlined-required"
@@ -243,7 +241,7 @@ export default function FormCandidat() {
 
                 <CardContent>
                     <Button variant="contained" color="success" type="submit">
-                        Success
+                        Confirmer
                     </Button>
                 </CardContent>
             </Box>
